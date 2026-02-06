@@ -1,0 +1,24 @@
+
+-- first_name, last_name, hiring_date, termination_date (no annual review)
+-- uber_employees dim table were one row makes up an entity
+-- uber_annul_review fact table 
+
+-- select distinct
+--     first_name,
+--     last_name,
+--     hire_date,
+--     termination_date
+-- from uber_employees as a left join uber_annual_review as b
+--     on a.id = b.emp_id -- if the uber_annual_review has multiple rows the we will have a join explosion
+-- where b.emp_id is null 
+-- order by a.hire_date desc;
+
+-- Patter Anti_join
+select
+    first_name,
+    last_name,
+    hire_date,
+    termination_date
+from uber_employees as a
+where NOT EXISTS(select * from uber_annual_review as b where a.id = b.emp_id)
+order by a.hire_date desc;
